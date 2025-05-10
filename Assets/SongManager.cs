@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class SongManager : MonoBehaviour
 {
+    public NoteDisplayManager NoteDisplayManager;
     public AudioManager audioManager;
     public Song song;
     public Note activeNote;
+    public float currTime;
+    public int noteIndex;
 
     private Sound activeSound;
     private bool soundAssigned;
@@ -12,6 +15,8 @@ public class SongManager : MonoBehaviour
     void Start()
     {
         soundAssigned = false;
+        noteIndex = 0;
+        activeNote = song.notes[noteIndex];
     }
 
     // Update is called once per frame
@@ -22,10 +27,29 @@ public class SongManager : MonoBehaviour
             activeSound = audioManager.Play("cringe");
             soundAssigned = true;
         }
+        manageSongTime();
+    }
+
+    void manageSongTime()
+    {
         if (soundAssigned)
         {
-            Debug.Log("Current time: " + activeSound.source.timeSamples / activeSound.frequency);
-            activeNote = song.notes[0];
+            currTime = activeSound.source.timeSamples / activeSound.frequency;
+            Debug.Log("Current time: " + currTime);
+            Debug.Log("Current note: " + noteIndex);
+            if (currTime >= activeNote.beat + 0.2) 
+            {
+                noteIndex += 1;
+                activeNote = song.notes[noteIndex];
+                NoteDisplayManager.enableTrigger();
+            }
         }
+    }
+
+    public void nextNote()
+    {
+        noteIndex += 1;
+        activeNote = song.notes[noteIndex];
+        NoteDisplayManager.enableTrigger();
     }
 }
