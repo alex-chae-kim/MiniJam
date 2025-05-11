@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public Animator birdHandAnimator;
     public SongManager songManager;
     public float offset;
 
@@ -22,10 +23,12 @@ public class InputManager : MonoBehaviour
     private bool key2Up;
     private bool key3Up;
     private bool key4Up;
+    private bool left;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        left = true;
         noteTracker = 0;
         notePressed = false;
         key1Up = true;
@@ -46,6 +49,7 @@ public class InputManager : MonoBehaviour
                 {
                     if (Input.GetKeyDown(songManager.activeNote.type))
                     {
+                        playPressKeyAnimation();
                         notePressed = true;
                         accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
                         if (accuracy <= perfectInterval) 
@@ -88,6 +92,7 @@ public class InputManager : MonoBehaviour
                     {
                         key1Up = true;
                         key2Up = true;
+                        playPressKeyAnimation();
                         notePressed = true;
                         accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
                         if (accuracy <= perfectInterval)
@@ -135,6 +140,7 @@ public class InputManager : MonoBehaviour
                         key1Up = true;
                         key2Up = true;
                         key3Up = true;
+                        playPressKeyAnimation();
                         notePressed = true;
                         accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
                         if (accuracy <= perfectInterval)
@@ -187,6 +193,7 @@ public class InputManager : MonoBehaviour
                         key2Up = true;
                         key3Up = true;
                         key4Up = true;
+                        playPressKeyAnimation();
                         notePressed = true;
                         accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
                         if (accuracy <= perfectInterval)
@@ -232,5 +239,19 @@ public class InputManager : MonoBehaviour
             StartCoroutine(turnOnOff(missIndicator));
         }
         notePressed = false;
+    }
+
+    public void playPressKeyAnimation()
+    {
+        if (left)
+        {
+            birdHandAnimator.SetTrigger("TypeLeft");
+            left = false;
+        }
+        else
+        {
+            birdHandAnimator.SetTrigger("TypeRight");
+            left = true;
+        }
     }
 }

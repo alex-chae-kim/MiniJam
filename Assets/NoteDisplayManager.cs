@@ -8,6 +8,7 @@ public class NoteDisplayManager : MonoBehaviour
     public Transform scorePoint;
     public Animator owlAnimator;
     public Animator defendantAnimator;
+    public string defendantSpeakTrigger;
     public Animator playerAnimator;
     public bool canTrigger;
 
@@ -42,6 +43,7 @@ public class NoteDisplayManager : MonoBehaviour
                     {
                         //do stuff to display defendant note
                         StartCoroutine(turnOnOff(testWord2));
+                        defendantAnimator.SetTrigger(defendantSpeakTrigger);
                     }
                 }
             }
