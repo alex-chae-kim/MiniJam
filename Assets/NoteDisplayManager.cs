@@ -26,12 +26,12 @@ public class NoteDisplayManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (songManager.currTime >= songManager.activeNote.beat - offset) 
+        if (songManager.currTime >= songManager.activeNote.beat - offset && songManager.currTime != 0) 
         {
             if (canTrigger)
             {
                 canTrigger = false;
-                if (!songManager.activeNote.interactable)
+                if (!songManager.activeNote.interactable && !songManager.activeNote.stop)
                 {
                     if (songManager.activeNote.owl)
                     {
@@ -52,7 +52,7 @@ public class NoteDisplayManager : MonoBehaviour
     IEnumerator turnOnOff(GameObject accuracyIndicator)
     {
         accuracyIndicator.SetActive(true);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.1f);
         accuracyIndicator.SetActive(false);
     }
 

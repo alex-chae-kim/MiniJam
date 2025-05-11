@@ -7,4 +7,5 @@ public class Note
     public bool interactable;
     public string type;
     public bool owl;
+    public bool stop;
 }

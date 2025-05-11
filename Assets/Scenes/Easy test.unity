@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   songManager: {fileID: 1194337738}
-  offset: 0.5
+  offset: 1
   perfectInterval: 0.05
   closeInterval: 0.1
   badInterval: 0.2
@@ -423,70 +423,101 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notes:
+  - beat: 0
+    interactable: 0
+    type: 
+    owl: 0
+    stop: 0
   - beat: 1
     interactable: 0
     type: 
-    owl: 1
-  - beat: 1.5
-    interactable: 0
-    type: 
-    owl: 1
+    owl: 0
+    stop: 0
   - beat: 2
     interactable: 0
     type: 
-    owl: 1
-  - beat: 2.5
+    owl: 0
+    stop: 0
+  - beat: 3
     interactable: 0
     type: 
-    owl: 1
-  - beat: 3
-    interactable: 1
-    type: a
     owl: 0
-  - beat: 3.5
-    interactable: 1
-    type: a
-    owl: 0
+    stop: 0
   - beat: 4
     interactable: 1
     type: a
     owl: 0
-  - beat: 4.5
+    stop: 0
+  - beat: 5
+    interactable: 1
+    type: as
+    owl: 0
+    stop: 0
+  - beat: 6
+    interactable: 1
+    type: asd
+    owl: 0
+    stop: 0
+  - beat: 7
+    interactable: 1
+    type: asdf
+    owl: 0
+    stop: 0
+  - beat: 8
+    interactable: 0
+    type: 
+    owl: 1
+    stop: 0
+  - beat: 9
+    interactable: 0
+    type: 
+    owl: 1
+    stop: 0
+  - beat: 9.5
+    interactable: 0
+    type: 
+    owl: 1
+    stop: 0
+  - beat: 10
+    interactable: 0
+    type: 
+    owl: 1
+    stop: 0
+  - beat: 11
+    interactable: 0
+    type: 
+    owl: 1
+    stop: 0
+  - beat: 12
+    interactable: 1
+    type: as
+    owl: 0
+    stop: 0
+  - beat: 13
+    interactable: 1
+    type: as
+    owl: 0
+    stop: 0
+  - beat: 13.5
+    interactable: 1
+    type: as
+    owl: 0
+    stop: 0
+  - beat: 14
+    interactable: 1
+    type: as
+    owl: 0
+    stop: 0
+  - beat: 15
     interactable: 1
     type: a
     owl: 0
-  - beat: 5
+    stop: 0
+  - beat: 0
     interactable: 0
     type: 
     owl: 0
-  - beat: 5.5
-    interactable: 0
-    type: 
-    owl: 0
-  - beat: 6
-    interactable: 0
-    type: 
-    owl: 0
-  - beat: 6.5
-    interactable: 0
-    type: 
-    owl: 0
-  - beat: 7
-    interactable: 1
-    type: b
-    owl: 0
-  - beat: 7.5
-    interactable: 1
-    type: b
-    owl: 0
-  - beat: 8
-    interactable: 1
-    type: b
-    owl: 0
-  - beat: 16
-    interactable: 1
-    type: b
-    owl: 0
+    stop: 1
 --- !u!4 &666832677
 Transform:
   m_ObjectHideFlags: 0
@@ -620,12 +651,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoteDisplayManager: {fileID: 1218787410}
   audioManager: {fileID: 1710528732}
+  inputManager: {fileID: 342223431}
   song: {fileID: 666832676}
+  songToPlay: test
   activeNote:
     beat: 0
     interactable: 0
     type: 
     owl: 0
+    stop: 0
   currTime: 0
   noteIndex: 0
 --- !u!4 &1194337739
@@ -989,6 +1023,15 @@ MonoBehaviour:
   sounds:
   - name: cringe
     clip: {fileID: 8300000, guid: b1eeff70642091a438284e3bb0d14e29, type: 3}
+    volume: 0.5
+    pitch: 1
+    length: 0
+    frequency: 0
+    samples: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: test
+    clip: {fileID: 8300000, guid: 2b571f26ecc9f604a8be1b613df12f6e, type: 3}
     volume: 0.5
     pitch: 1
     length: 0
