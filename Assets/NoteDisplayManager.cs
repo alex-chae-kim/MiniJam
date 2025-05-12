@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
+
 public class NoteDisplayManager : MonoBehaviour
 {
+    public VisualNotePair[] BirdSounds;
     public float offset;
     public SongManager songManager;
-    public Transform scorePoint;
+    public Transform speakPoint;
     public Animator owlAnimator;
     public Animator defendantAnimator;
     public string defendantSpeakTrigger;
@@ -41,9 +43,17 @@ public class NoteDisplayManager : MonoBehaviour
                     }
                     else if (!songManager.activeNote.owl)
                     {
-                        //do stuff to display defendant note
-                        StartCoroutine(turnOnOff(testWord2));
+                        //do stuff to display defendant note                     
                         defendantAnimator.SetTrigger(defendantSpeakTrigger);
+                        foreach (var sound in BirdSounds)
+                        {
+                            if (sound.name == songManager.activeNote.type)
+                            {
+                                float randomZ = Random.Range(-10f, 10f); //
+                                Quaternion rotation = Quaternion.Euler(0f, 0f, randomZ);
+                                Instantiate(sound.noteObject, speakPoint.position, rotation);
+                            }
+                        }
                     }
                 }
             }

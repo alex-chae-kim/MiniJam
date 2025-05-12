@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -11,10 +12,14 @@ public class InputManager : MonoBehaviour
     public float closeInterval;
     public float badInterval;
 
+    public Transform scoreSpawnPoint;
+
     public GameObject perfectIndicator;
     public GameObject closeIndicator;
     public GameObject badIndicator;
     public GameObject missIndicator;
+
+    public int score;
 
 
     private int noteTracker;
@@ -28,6 +33,7 @@ public class InputManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        score = 0;
         left = true;
         noteTracker = 0;
         notePressed = false;
@@ -45,9 +51,7 @@ public class InputManager : MonoBehaviour
            if (songManager.activeNote.interactable)
             {
                 float accuracy = 0;
-                if (songManager.activeNote.type.Length == 1)
-                {
-                    if (Input.GetKeyDown(songManager.activeNote.type))
+                    if (Input.GetKeyDown(KeyCode.Space))
                     {
                         playPressKeyAnimation();
                         notePressed = true;
@@ -55,173 +59,180 @@ public class InputManager : MonoBehaviour
                         if (accuracy <= perfectInterval) 
                         {
                             Debug.Log("Perfect note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(perfectIndicator));
+                            score += 1000;
+                            Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+                            Instantiate(perfectIndicator, scoreSpawnPoint.position, rotation);
                             songManager.nextNote();
                         }
                         else if (accuracy <= closeInterval)
                         {
                             Debug.Log("Close note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(closeIndicator));
+                            score += 750;
+                            Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+                            Instantiate(closeIndicator, scoreSpawnPoint.position, rotation);
                             songManager.nextNote();
                         }
                         else if (accuracy < badInterval)
                         {
                             Debug.Log("Bad note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(badIndicator));
+                            score += 500;
+                            Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+                            Instantiate(badIndicator, scoreSpawnPoint.position, rotation);
                             songManager.nextNote();
                         }
                         else
                         {
                             Debug.Log("Missed note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(missIndicator));
+                            Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+                            Instantiate(missIndicator, scoreSpawnPoint.position, rotation);
                             songManager.nextNote();
                         }
                     }
-                }
-                else if (songManager.activeNote.type.Length == 2)
+                /*
+            else if (songManager.activeNote.type.Length == 2)
+            {
+                if (Input.GetKeyDown((songManager.activeNote.type[0]).ToString()))
                 {
-                    if (Input.GetKeyDown((songManager.activeNote.type[0]).ToString()))
-                    {
-                        key1Up = false;
-                    }
-                    if (Input.GetKeyDown((songManager.activeNote.type[1]).ToString()))
-                    {
-                        key2Up = false;
-                    }
-                    if (!key1Up && !key2Up)
-                    {
-                        key1Up = true;
-                        key2Up = true;
-                        playPressKeyAnimation();
-                        notePressed = true;
-                        accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
-                        if (accuracy <= perfectInterval)
-                        {
-                            Debug.Log("Perfect note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(perfectIndicator));
-                            songManager.nextNote();
-                        }
-                        else if (accuracy <= closeInterval)
-                        {
-                            Debug.Log("Close note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(closeIndicator));
-                            songManager.nextNote();
-                        }
-                        else if (accuracy < badInterval)
-                        {
-                            Debug.Log("Bad note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(badIndicator));
-                            songManager.nextNote();
-                        }
-                        else
-                        {
-                            Debug.Log("Missed note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(missIndicator));
-                            songManager.nextNote();
-                        }
-                    }
+                    key1Up = false;
                 }
-                else if (songManager.activeNote.type.Length == 3)
+                if (Input.GetKeyDown((songManager.activeNote.type[1]).ToString()))
                 {
-                    if (Input.GetKeyDown((songManager.activeNote.type[0]).ToString()))
-                    {
-                        key1Up = false;
-                    }
-                    if (Input.GetKeyDown((songManager.activeNote.type[1]).ToString()))
-                    {
-                        key2Up = false;
-                    }
-                    if (Input.GetKeyDown((songManager.activeNote.type[2]).ToString()))
-                    {
-                        key3Up = false;
-                    }
-                    if (!key1Up && !key2Up && !key3Up)
-                    {
-                        key1Up = true;
-                        key2Up = true;
-                        key3Up = true;
-                        playPressKeyAnimation();
-                        notePressed = true;
-                        accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
-                        if (accuracy <= perfectInterval)
-                        {
-                            Debug.Log("Perfect note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(perfectIndicator));
-                            songManager.nextNote();
-                        }
-                        else if (accuracy <= closeInterval)
-                        {
-                            Debug.Log("Close note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(closeIndicator));
-                            songManager.nextNote();
-                        }
-                        else if (accuracy < badInterval)
-                        {
-                            Debug.Log("Bad note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(badIndicator));
-                            songManager.nextNote();
-                        }
-                        else
-                        {
-                            Debug.Log("Missed note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(missIndicator));
-                            songManager.nextNote();
-                        }
-                    }
+                    key2Up = false;
                 }
-                else if (songManager.activeNote.type.Length == 4)
+                if (!key1Up && !key2Up)
                 {
-                    if (Input.GetKeyDown((songManager.activeNote.type[0]).ToString()))
+                    key1Up = true;
+                    key2Up = true;
+                    playPressKeyAnimation();
+                    notePressed = true;
+                    accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
+                    if (accuracy <= perfectInterval)
                     {
-                        key1Up = false;
+                        Debug.Log("Perfect note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(perfectIndicator));
+                        songManager.nextNote();
                     }
-                    if (Input.GetKeyDown((songManager.activeNote.type[1]).ToString()))
+                    else if (accuracy <= closeInterval)
                     {
-                        key2Up = false;
+                        Debug.Log("Close note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(closeIndicator));
+                        songManager.nextNote();
                     }
-                    if (Input.GetKeyDown((songManager.activeNote.type[2]).ToString()))
+                    else if (accuracy < badInterval)
                     {
-                        key3Up = false;
+                        Debug.Log("Bad note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(badIndicator));
+                        songManager.nextNote();
                     }
-                    if (Input.GetKeyDown((songManager.activeNote.type[3]).ToString()))
+                    else
                     {
-                        key4Up = false;
-                    }
-                    if (!key1Up && !key2Up && !key3Up && !key4Up)
-                    {
-                        key1Up = true;
-                        key2Up = true;
-                        key3Up = true;
-                        key4Up = true;
-                        playPressKeyAnimation();
-                        notePressed = true;
-                        accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
-                        if (accuracy <= perfectInterval)
-                        {
-                            Debug.Log("Perfect note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(perfectIndicator));
-                            songManager.nextNote();
-                        }
-                        else if (accuracy <= closeInterval)
-                        {
-                            Debug.Log("Close note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(closeIndicator));
-                            songManager.nextNote();
-                        }
-                        else if (accuracy < badInterval)
-                        {
-                            Debug.Log("Bad note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(badIndicator));
-                            songManager.nextNote();
-                        }
-                        else
-                        {
-                            Debug.Log("Missed note @ " + songManager.currTime + "!!");
-                            StartCoroutine(turnOnOff(missIndicator));
-                            songManager.nextNote();
-                        }
+                        Debug.Log("Missed note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(missIndicator));
+                        songManager.nextNote();
                     }
                 }
+            }
+            else if (songManager.activeNote.type.Length == 3)
+            {
+                if (Input.GetKeyDown((songManager.activeNote.type[0]).ToString()))
+                {
+                    key1Up = false;
+                }
+                if (Input.GetKeyDown((songManager.activeNote.type[1]).ToString()))
+                {
+                    key2Up = false;
+                }
+                if (Input.GetKeyDown((songManager.activeNote.type[2]).ToString()))
+                {
+                    key3Up = false;
+                }
+                if (!key1Up && !key2Up && !key3Up)
+                {
+                    key1Up = true;
+                    key2Up = true;
+                    key3Up = true;
+                    playPressKeyAnimation();
+                    notePressed = true;
+                    accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
+                    if (accuracy <= perfectInterval)
+                    {
+                        Debug.Log("Perfect note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(perfectIndicator));
+                        songManager.nextNote();
+                    }
+                    else if (accuracy <= closeInterval)
+                    {
+                        Debug.Log("Close note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(closeIndicator));
+                        songManager.nextNote();
+                    }
+                    else if (accuracy < badInterval)
+                    {
+                        Debug.Log("Bad note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(badIndicator));
+                        songManager.nextNote();
+                    }
+                    else
+                    {
+                        Debug.Log("Missed note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(missIndicator));
+                        songManager.nextNote();
+                    }
+                }
+            }
+            else if (songManager.activeNote.type.Length == 4)
+            {
+                if (Input.GetKeyDown((songManager.activeNote.type[0]).ToString()))
+                {
+                    key1Up = false;
+                }
+                if (Input.GetKeyDown((songManager.activeNote.type[1]).ToString()))
+                {
+                    key2Up = false;
+                }
+                if (Input.GetKeyDown((songManager.activeNote.type[2]).ToString()))
+                {
+                    key3Up = false;
+                }
+                if (Input.GetKeyDown((songManager.activeNote.type[3]).ToString()))
+                {
+                    key4Up = false;
+                }
+                if (!key1Up && !key2Up && !key3Up && !key4Up)
+                {
+                    key1Up = true;
+                    key2Up = true;
+                    key3Up = true;
+                    key4Up = true;
+                    playPressKeyAnimation();
+                    notePressed = true;
+                    accuracy = Mathf.Abs(songManager.currTime - songManager.activeNote.beat);
+                    if (accuracy <= perfectInterval)
+                    {
+                        Debug.Log("Perfect note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(perfectIndicator));
+                        songManager.nextNote();
+                    }
+                    else if (accuracy <= closeInterval)
+                    {
+                        Debug.Log("Close note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(closeIndicator));
+                        songManager.nextNote();
+                    }
+                    else if (accuracy < badInterval)
+                    {
+                        Debug.Log("Bad note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(badIndicator));
+                        songManager.nextNote();
+                    }
+                    else
+                    {
+                        Debug.Log("Missed note @ " + songManager.currTime + "!!");
+                        StartCoroutine(turnOnOff(missIndicator));
+                        songManager.nextNote();
+                    }
+                }                   
+            } */
             }
         }
     }
@@ -236,7 +247,8 @@ public class InputManager : MonoBehaviour
     {
         if (!notePressed && songManager.activeNote.interactable)
         {
-            StartCoroutine(turnOnOff(missIndicator));
+            Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+            Instantiate(missIndicator, scoreSpawnPoint.position, rotation);
         }
         notePressed = false;
     }

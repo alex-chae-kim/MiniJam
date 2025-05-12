@@ -25,14 +25,14 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public Sound Play(string name)
+    public Sound Play(string name, double startTime)
     {
         Sound s = Array.Find(sounds, sounds => sounds.name == name);
         if (s == null)
         {
             return null;
         }
-        s.source.Play();
+        s.source.PlayScheduled(startTime);
         return s;
     }
 
