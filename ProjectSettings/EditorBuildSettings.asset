@@ -8,12 +8,18 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Easy test.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Start.unity
     guid: c015ecd91fd348d448977277f2a10a6c
   - enabled: 1
+    path: Assets/Scenes/Calibration.unity
+    guid: 11be5435bd420704299bc20a89c0f517
+  - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 3ae254392d9396c43a94dcc9eee51682
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: fef0a79b8d0e54147b44e95be5f985b4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

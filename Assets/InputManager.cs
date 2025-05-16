@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public AudioManager AudioManager;
     public Animator birdHandAnimator;
     public SongManager songManager;
     public float offset;
@@ -258,11 +259,13 @@ public class InputManager : MonoBehaviour
         if (left)
         {
             birdHandAnimator.SetTrigger("TypeLeft");
+            AudioManager.Play("type", Time.time);
             left = false;
         }
         else
         {
             birdHandAnimator.SetTrigger("TypeRight");
+            AudioManager.Play("type", Time.time);
             left = true;
         }
     }

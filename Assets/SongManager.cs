@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SongManager : MonoBehaviour
 {
+    public CalibrationConstant calibrationConstant;
     public NoteDisplayManager NoteDisplayManager;
     public AudioManager audioManager;
     public InputManager inputManager;
@@ -30,6 +31,7 @@ public class SongManager : MonoBehaviour
     private bool stopSong;
     private double dspStartTime;
     private float startTime;
+    private float calibrationConst;
 
     private bool first1;
     private bool first2;
@@ -37,6 +39,8 @@ public class SongManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        calibrationConstant = GameObject.Find("CalibrationConstant").GetComponent<CalibrationConstant>();
+        calibrationConst = calibrationConstant.getCalibrationConst();
         first1 = true;
         first2 = true;
         first3 = true;
@@ -87,7 +91,7 @@ public class SongManager : MonoBehaviour
                 stopSong = true;
                 StartCoroutine(displayEndScreen());
             }
-            currTime = (float)(AudioSettings.dspTime - dspStartTime);
+            currTime = (float)(AudioSettings.dspTime - dspStartTime) + calibrationConst;
             //Debug.Log("Current time: " + currTime);
             //Debug.Log("Current note: " + noteIndex);
             if (currTime >= activeNote.beat + 0.2 && !stopSong) 
@@ -125,7 +129,7 @@ public class SongManager : MonoBehaviour
             restartButton.SetActive(true);
             loseMessage.SetActive(true);
         }
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2.5f);
         EndScreenAnimator.SetTrigger("lower screen");
     }
 
@@ -135,8 +139,10 @@ public class SongManager : MonoBehaviour
         audioManager.Play("gavel", Time.time);
         blackScreen.gavelScreenExit();
         yield return new WaitForSeconds(1);
-        dspStartTime = AudioSettings.dspTime + 1.0;
+        dspStartTime = AudioSettings.dspTime;
         activeSound = audioManager.Play(songToPlay, dspStartTime);
         soundAssigned = true;
+        yield return new WaitForSeconds(1);
+        line3.SetActive(false);
     }
 }
